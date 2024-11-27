@@ -17,6 +17,8 @@
     "no-param-reassign": "off",
     "no-return-await": "off",
     "no-underscore-dangle": "off",
+    "no-empty": "off",
+    "prefer-arrow-callback": "off",
     "class-methods-use-this": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "lines-between-class-members": "off",
