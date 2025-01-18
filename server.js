@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 process.on('uncaughtException', (err) => {
   console.log('ENCAUGHT EXCEPTION!💥 Shutting down');
   console.log(err.name, err.message);
-
+  console.log(err.stack);
   process.exit(1);
 });
 
@@ -24,9 +24,6 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((con) => console.log('\n\n\n Connection DB ✅')); // con.connection, '\n\n\n Connection DB ✅'
-// .catch((err) => console.log('ERROR'));
-
-// console.log(process.env);
 
 const port = process.env.PORT || 3000;
 
