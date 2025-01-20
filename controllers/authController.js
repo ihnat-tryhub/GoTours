@@ -55,13 +55,13 @@ exports.login = catchAsync(async (req, res, next) => {
   const password = req.body.password;
 
   // 1) Check if email and password exist
-
   if (!email || !password) {
     return next(new AppError('Please provide emeail and password', 400));
   }
 
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select('+password');
+
   //   const correct = await user.correctPassword(password, user.password);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -106,7 +106,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     // roles ['admin', 'lead-guide']. role = "user"
-    if (!roles.includes(req.user.roles)) {
+    if (!roles.includes(req.user.role)) {
+      console.log(`Your role is ${roles} ${req.user.role} `);
       return next(new AppError('You do not have permission to perform this action', 403));
     }
     next();
@@ -175,7 +176,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-
   const user = await User.findById(req.user.id).select('+password');
 
   // 2) Check if POSTed current password is correct
