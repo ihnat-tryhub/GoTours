@@ -71,12 +71,17 @@ exports.getAll = (Model) =>
     // Execute query     // query.sort().select().skip().limit()
     const features = new APIFeatures(Model.find(), req.query).filter().sort().limit().paginate();
 
-    const doc = await features.query;
+    // 67924aa258aa4a3fc47155e4
+    const doc = await features.query.explain();
     // Send response
     res.status(200).json({
       status: 'success',
       requstedAt: req.requestTime,
-      result: doc.length,
-      data: { data: doc },
+      // result: doc.length,
+      // data: { data: doc },
+      //
+      // await Model.find()
+      result: (await Model.find()).length,
+      data: { data: await Model.find() },
     });
   });
