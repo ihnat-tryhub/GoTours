@@ -27,8 +27,11 @@ exports.getTour = catchAsync(async (req, res, next) => {
   // create route and get the data
   // 2) Build template
   // 3) Render template using the data from 1)
-  res.status(200).render('tour', {
-    title: 'The Forest Hiker Tour',
-    tour,
-  });
+  res
+    .status(200)
+    .set('Content-Security-Policy', 'connect-src https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com')
+    .render('tour', {
+      title: `${tour.name} Tour`,
+      tour,
+    });
 });
