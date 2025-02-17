@@ -36,8 +36,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  if (await User.findOne({ email: req.body.email }))
-    return next(new AppError('User with this email already exists', 400));
+  if (await User.findOne({ email: req.body.email })) return next(new AppError('User with this email already exists', 400));
 
   const newUser = await User.create({
     name: req.body.name,
@@ -73,12 +72,22 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    epires: new Date(Date.now + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check of it's there
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
   if (!token) {
     return next(new AppError('You are not logged in! Please log in to get access.', 401));
@@ -100,8 +109,35 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = freshUser;
+  res.locals.user = freshUser;
+
   next();
 });
+
+// Only for rendered pages, no errors!
+exports.isLoggedIn = async (req, res, next) => {
+  if (req.cookies.jwt) {
+    try {
+      // 1) Verififcation token
+      const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
+      // 2) Check if user still exists
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        return next();
+      }
+
+      // 3) Check if user changed password after the token (JWT) was issued
+      if (currentUser.changedPasswordAfter(decoded.iat)) return next();
+
+      // THERE IS A LOGGED IN USER
+      res.locals.user = currentUser;
+      return next();
+    } catch (err) {
+      return next();
+    }
+  }
+};
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {

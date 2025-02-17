@@ -34,16 +34,36 @@ const handleJWTExpiredError = () => {
 };
 //
 
-const sendErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
+const sendErrorDev = (err, req, res) => {
+  // API
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      error: err,
+      message: err.message,
+      stack: err.stack,
+    });
+  }
+
+  // Rendered website
+  // if its an operational error, send msg to client
+  if (err.isOperational) {
+    console.log('error - ', err);
+    return res.status(err.statusCode).render('error', {
+      title: 'Smthng went wrong!',
+      msg: err.message,
+    });
+  }
+
+  // unknown error: dont talk to much
+  return res.status(err.statusCode).render('error', {
+    title: 'Something went wrong, uknown error',
+    msg: err.message,
+    // msg:'Please try again later'
   });
 };
 
-const sendErrorProd = (err, res) => {
+const sendErrorProd = (err, req, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
@@ -76,7 +96,7 @@ module.exports = (err, req, res, next) => {
   if (error.name === 'JsonWebTokenError') error = hadndleJWTError();
   if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
-  sendErrorDev(error, res);
+  sendErrorDev(error, req, res);
   // if (process.env.NODE_ENV === 'development') {
   //   sendErrorDev(err, res);
   //   let error = { ...err };

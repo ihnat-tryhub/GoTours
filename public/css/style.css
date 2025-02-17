@@ -52,6 +52,16 @@ body {
   position: relative;
 }
 
+.header-logo-page,
+.footer-logo-page {
+  background-color: #f7f7f7;
+  padding: 8rem 6rem;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 0.2;
+  position: relative;
+}
+
 .flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -140,18 +150,8 @@ body {
   line-height: 1;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    right bottom,
-    from(rgba(125, 213, 111, 0.85)),
-    to(rgba(40, 180, 135, 0.85))
-  );
-  background-image: linear-gradient(
-    to bottom right,
-    rgba(125, 213, 111, 0.85),
-    rgba(40, 180, 135, 0.85)
-  );
+  background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(125, 213, 111, 0.85)), to(rgba(40, 180, 135, 0.85)));
+  background-image: linear-gradient(to bottom right, rgba(125, 213, 111, 0.85), rgba(40, 180, 135, 0.85));
 }
 
 .heading-primary {
@@ -476,18 +476,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  clip-path: polygon(
-    0 var(--section-rotate),
-    100% 0,
-    100% calc(100% - var(--section-rotate)),
-    0 100%
-  );
-  -webkit-clip-path: polygon(
-    0 var(--section-rotate),
-    100% 0,
-    100% calc(100% - var(--section-rotate)),
-    0 100%
-  );
+  clip-path: polygon(0 var(--section-rotate), 100% 0, 100% calc(100% - var(--section-rotate)), 0 100%);
+  -webkit-clip-path: polygon(0 var(--section-rotate), 100% 0, 100% calc(100% - var(--section-rotate)), 0 100%);
   margin-top: calc(0px - var(--section-rotate));
   position: relative;
   z-index: 1000;
@@ -551,18 +541,8 @@ body {
   z-index: 1000;
   background: -webkit-gradient(linear, left top, right bottom, from(#7dd56f), to(#28b487));
   background: linear-gradient(to right bottom, #7dd56f, #28b487);
-  clip-path: polygon(
-    0 var(--section-rotate),
-    100% 0,
-    100% calc(100% - var(--section-rotate)),
-    0 100%
-  );
-  -webkit-clip-path: polygon(
-    0 var(--section-rotate),
-    100% 0,
-    100% calc(100% - var(--section-rotate)),
-    0 100%
-  );
+  clip-path: polygon(0 var(--section-rotate), 100% 0, 100% calc(100% - var(--section-rotate)), 0 100%);
+  -webkit-clip-path: polygon(0 var(--section-rotate), 100% 0, 100% calc(100% - var(--section-rotate)), 0 100%);
 }
 
 .reviews {
