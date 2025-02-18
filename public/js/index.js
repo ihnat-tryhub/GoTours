@@ -1,5 +1,4 @@
 /* eslint-disable*/
-console.log('hello from parcel');
 import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
@@ -29,13 +28,25 @@ if (loginForm) {
   });
 }
 
+if (logOutBtn) logOutBtn.addEventListener('click', logout);
+
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    updateSettings({ name, email }, 'data');
+    console.log(1233123131);
+
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    console.log(31);
+
+    form.append('photo', document.getElementById('photo').files[0]);
+    console.log(form);
+
+    updateSettings(form, 'data');
   });
+} else {
+  console.log('there is no user data form');
 }
 
 if (userPasswordForm) {
@@ -54,5 +65,3 @@ if (userPasswordForm) {
     document.getElementById('password-confirm').value = '';
   });
 }
-
-if (logOutBtn) logOutBtn.addEventListener('click', logout);

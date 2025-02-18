@@ -1,29 +1,56 @@
 const nodemailer = require('nodemailer');
+const pug = require('pug');
+const htmlToText = require('html-to-text');
+
 require('dotenv').config();
 
-const sendEmail = async (options) => {
-  // 1) Create a transporter
-  const transporter = nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 2525,
-    auth: {
-      user: '234cb8691cbb25',
-      pass: 'e2ccc163f146fc',
-    },
-  });
+module.exports = class Email {
+  constructor(user, url) {
+    this.to = user.email;
+    this.firstName = user.name.split(' ')[0];
+    this.url = url;
+    this.from = `Ihnat Tryhub ${process.env.EMAIL_FROM}`;
+  }
 
-  // 2) Define the email options
+  newTransport() {
+    if (process.env.NODE_ENV === 'production') {
+      //
+      return 1;
+    }
+    return nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  }
 
-  const mailOptions = {
-    from: 'Ihnat Tryhub <hello@ihnat.io>',
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-    // html
-  };
+  // Send the actual email
+  async send(template, subject) {
+    // 1) Rendet HTML based on a pug template
+    const html = pug.renderFile(`${__dirname}/../views/emails/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject,
+    });
 
-  // 3) Actually send the email
-  await transporter.sendMail(mailOptions);
+    // 2) Define the email options
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: htmlToText.fromString(html),
+      // html
+    };
+
+    // 3) Create a transport and send email
+    await this.newTransport().sendMail(mailOptions);
+  }
+
+  async sendWelcome() {
+    await this.send('Welcome', 'Welcome to the Natours Family!');
+  }
 };
-
-module.exports = sendEmail;
