@@ -15,7 +15,6 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
-const bookBtn = document.getElementById('book-tour');
 
 // DELEGATION
 if (mapBox) {
@@ -24,6 +23,8 @@ if (mapBox) {
 }
 
 if (loginForm) {
+  console.log('form is here');
+
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     // VALUES
@@ -35,17 +36,20 @@ if (loginForm) {
 }
 
 if (signupForm) {
-  loginForm.addEventListener('submit', (e) => {
+  console.log('signup form is here');
+  signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
     // VALUES
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('passwordConfirm').value;
-
+    console.log('signup');
     if (password !== passwordConfirm) {
       showAlert('error', 'Passwords must be same');
     } else {
+      console.log('signup in progress');
+
       signup(name, email, password, passwordConfirm);
     }
   });

@@ -121,7 +121,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // Only for rendered pages, no errors!
-exports.isLoggedIn = async (req, res, next) => {
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
       // 1) Verififcation token
@@ -143,7 +143,8 @@ exports.isLoggedIn = async (req, res, next) => {
       return next();
     }
   }
-};
+  next();
+});
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {

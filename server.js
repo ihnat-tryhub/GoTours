@@ -27,6 +27,11 @@ mongoose
 
 const port = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+  console.log(`👉 Получен запрос: ${req.method} ${req.url}`);
+  next();
+});
+
 const server = app.listen(port, () => {
   console.log('app running on port - ', port);
 });
