@@ -15,6 +15,9 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+const logoHeader = document.getElementById('logoHeader');
+const logoFooter = document.getElementById('logoFooter');
+const saveSettingsBtn = document.getElementById('saveSettings');
 
 // DELEGATION
 if (mapBox) {
@@ -106,3 +109,20 @@ if (bookBtn)
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
+
+if (logoHeader && logoFooter) {
+  logoHeader.addEventListener('click', () => {
+    window.location.href = '/'; // Переход на главную страницу
+  });
+  logoFooter.addEventListener('click', () => {
+    window.location.href = '/'; // Переход на главную страницу
+  });
+}
+
+if (saveSettingsBtn) {
+  saveSettingsBtn.addEventListener('click', () => {
+    setTimeout(function () {
+      location.reload();
+    }, 1);
+  });
+}

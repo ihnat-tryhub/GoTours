@@ -1,5 +1,5 @@
 {
-  "name": "natours",
+  "name": "gotours",
   "version": "1.0.0",
   "description": "node js, express and mondo db",
   "main": "index.js",
