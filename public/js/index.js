@@ -63,12 +63,10 @@ if (logOutBtn) logOutBtn.addEventListener('click', logout);
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(1233123131);
 
     const form = new FormData();
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
-    console.log(31);
 
     form.append('photo', document.getElementById('photo').files[0]);
     console.log(form);
@@ -95,13 +93,6 @@ if (userPasswordForm) {
     document.getElementById('password-confirm').value = '';
   });
 }
-
-if (bookBtn)
-  bookBtn.addEventListener('click', (e) => {
-    e.target.textContent = 'Processing...';
-    const { tourId } = e.target.dataset;
-    bookTour(tourId);
-  });
 
 if (bookBtn)
   bookBtn.addEventListener('click', (e) => {
