@@ -1,19 +1,19 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/Sleepwalkerqwe/Natours"><img src="https://natours.netlify.app/img/logo-green-2x.png" alt="Natours" width="200"></a>
+<!--   <a href="https://github.com/Sleepwalkerqwe/GoTours"><img src="https://natours.netlify.app/img/logo-green-2x.png" alt="Natours" width="200"></a> -->
   <br>
-  Natours
+  GoTours
   <br>
 </h1>
 
 ## About The Project
 
-Natours is a web application for booking tours, designed for travelers to explore iconic destinations effortlessly. It provides curated tours, seamless facilities, and unforgettable adventures. Users can access the platform through the web interface or integrate with the system via the provided REST API.
+GoTours is a web application for booking tours, designed for travelers to explore iconic destinations effortlessly. It provides curated tours, seamless facilities, and unforgettable adventures. Users can access the platform through the web interface or integrate with the system via the provided REST API.
 
 <br />
 <div align="center">
   
-  <h3 align="center">Natours API 🌏</h3>
+  <h3 align="center">GoTours API 🌏</h3>
 
   <p align="center">
     An awesome platofrm to plan your tours!
@@ -55,7 +55,7 @@ Natours is a web application for booking tours, designed for travelers to explor
   </ol>
 </details>
 
-<h4 align="center">Natours: Explore iconic destinations effortlessly. Curated tours, seamless facilities, and unforgettable adventures await. Accessible via our user-friendly platform or integrate seamlessly using our API.</h4>
+<h4 align="center">GoTours: Explore iconic destinations effortlessly. Curated tours, seamless facilities, and unforgettable adventures await. Accessible via our user-friendly platform or integrate seamlessly using our API.</h4>
 
 
 ### Built With
@@ -98,9 +98,9 @@ This section showcases the foundational elements of my project. Here, you'll fin
 
 ## REST API
 
-Natours provides a RESTful API
+GoTours provides a RESTful API
 
 ## Deployment
 
-The project is hosted on Render
+The project is hosted on Render - https://gotours.onrender.com
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

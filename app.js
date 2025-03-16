@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const compression = require('compression');
 
 const AppError = require('./utils/appError');
@@ -21,6 +22,8 @@ const bookingController = require('./controllers/bookingController');
 // const { createDeflate } = require('zlib');
 
 const app = express();
+
+app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -44,8 +47,7 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour.',
 });
 app.use('/api', limiter);
-
-app.post('/webhook-checkout', express.raw({ type: 'application/json' }), bookingController.webhookCheckout);
+app.set('trust proxy', 1);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));

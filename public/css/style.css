@@ -329,6 +329,10 @@ body {
 .header__logo img {
   height: 10rem;
 }
+.header__logo img:hover {
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 62.5em) {
   .header__logo {
     -webkit-box-ordinal-group: 0;
@@ -782,6 +786,9 @@ body {
 }
 .footer__logo img {
   height: 5rem;
+}
+.footer__logo img:hover {
+  cursor: pointer;
 }
 .footer__nav {
   list-style: none;
