@@ -32,6 +32,11 @@ exports.uploadTourImages = upload.fields([
 exports.resizeTourImages = async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 
+  // Создаем папку, если её нет
+  if (!fs.existsSync('public/img/tours')) {
+    fs.mkdirSync('public/img/tours', { recursive: true });
+  }
+
   // 1) Cover image
   console.log(req.files);
 

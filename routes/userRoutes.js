@@ -4,6 +4,8 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
+// ('api/v1/users/forgotPassword');
+
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);

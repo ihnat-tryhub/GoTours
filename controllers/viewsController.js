@@ -57,10 +57,9 @@ exports.getAccount = (req, res) => {
   });
 };
 
-exports.getMyTours = catchAsync(async (req, res, next) => {
+exports.getMyTours = catchAsync(async (req, res) => {
   // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
-  console.log(bookings);
 
   if (bookings.length == 0) {
     return res.status(200).set('Content-Security-Policy', CSP_HEADER).render('overview', {
@@ -71,7 +70,6 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   // 2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour.id);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
-  console.log(bookings, bookings.length);
 
   res.status(200).set('Content-Security-Policy', CSP_HEADER).render('overview', {
     title: 'My bookings',
@@ -95,5 +93,11 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
   res.status(200).set('Content-Security-Policy', CSP_HEADER).render('account', {
     title: 'Your account',
     user: updatedUser,
+  });
+});
+
+exports.resetPassword = catchAsync(async (req, res) => {
+  res.status(200).set('Content-Security-Policy', CSP_HEADER).render('resetPassword', {
+    title: 'Reset password',
   });
 });

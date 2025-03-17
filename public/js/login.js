@@ -70,3 +70,53 @@ export const logout = async () => {
     showAlert('error', 'Error logging out! Try again.');
   }
 };
+
+export const forgot = async (email) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      baseURL: '', // Переопределяем baseURL для этого запроса, оставляем его пустым
+
+      url: 'api/v1/users/forgotPassword',
+      data: {
+        email,
+      },
+    });
+    if (res.data.status == 'success') {
+      console.log('sgsfdjasdli');
+      showAlert('success', 'Link was sent to the email');
+    }
+  } catch (err) {
+    console.log(err);
+    console.log(err.message);
+    showAlert('error', 'Error reset password! Try again.');
+  }
+  // url: 'https://gotours.onrender.com/login/forgotPassword
+  // url: 'https://gotours.onrender.com/api/v1/users/forgotPassword
+  // url: 'https://gotours.onrender.com
+
+  // POST https://gotours.onrender.com/api/v1/users/forgotPassword 500
+};
+
+export const reset = async (password, passwordConfirm, token) => {
+  try {
+    const res = await axios({
+      method: 'patch',
+      baseURL: '', // Переопределяем baseURL для этого запроса, оставляем его пустым
+      url: `/api/v1/users/resetPassword/${token}`, // Путь будет относительным
+      data: {
+        password,
+        passwordConfirm,
+      },
+    });
+
+    if (res.data.status == 'success') {
+      showAlert('success', 'Reset successfully!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', 'Error reset password!! Try again.');
+  }
+};

@@ -1,7 +1,7 @@
 /* eslint-disable*/
 import '@babel/polyfill';
 import { displayMap } from './mapbox';
-import { login, logout, signup } from './login';
+import { login, logout, signup, reset, forgot } from './login';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { showAlert } from './alert';
@@ -10,8 +10,10 @@ import { showAlert } from './alert';
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const signupForm = document.querySelector('.form--signup');
+const resetPasswordForm = document.querySelector('.form--reset');
 
 const logOutBtn = document.querySelector('.nav__el--logout');
+const forgotBtn = document.querySelector('#forgotBtn');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
@@ -26,7 +28,16 @@ if (mapBox) {
 }
 
 if (loginForm) {
-  console.log('form is here');
+  console.log('login form is here');
+  const forgotText = document.querySelector('#forgotText');
+
+  forgotText.addEventListener('click', (e) => {
+    console.log(123);
+
+    const email = document.getElementById('email').value;
+
+    forgot(email);
+  });
 
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -58,9 +69,31 @@ if (signupForm) {
   });
 }
 
+if (resetPasswordForm) {
+  const token = window.location.pathname.split('/').pop();
+  resetPasswordForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // VALUES
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+
+    if (password !== passwordConfirm) {
+      showAlert('error', 'Passwords must be same');
+    } else {
+      reset(password, passwordConfirm, token);
+    }
+  });
+}
+
 if (logOutBtn) logOutBtn.addEventListener('click', logout);
 
 if (userDataForm) {
+  forgotBtn.addEventListener('click', (e) => {
+    const email = document.getElementById('email').value;
+    console.log(email);
+    forgot(email);
+  });
+
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -69,12 +102,9 @@ if (userDataForm) {
     form.append('email', document.getElementById('email').value);
 
     form.append('photo', document.getElementById('photo').files[0]);
-    console.log(form);
 
     updateSettings(form, 'data');
   });
-} else {
-  console.log('there is no user data form');
 }
 
 if (userPasswordForm) {
@@ -111,9 +141,8 @@ if (logoHeader && logoFooter) {
 }
 
 if (saveSettingsBtn) {
-  saveSettingsBtn.addEventListener('click', () => {
-    setTimeout(function () {
-      location.reload();
-    }, 1);
+  saveSettingsBtn.addEventListener('click', async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    location.reload();
   });
 }

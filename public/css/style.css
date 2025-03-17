@@ -92,6 +92,12 @@ body {
   text-align: right !important;
 }
 
+.center-buttons {
+  display: flex;
+  justify-content: center; /* Центрируем по горизонтали */
+  gap: 5rem; /* Добавляет расстояние между кнопками */
+}
+
 .line {
   margin: 6rem 0;
   width: 100%;
@@ -300,6 +306,25 @@ body {
   outline: none;
   outline: 3px solid #55c57a;
   outline-offset: 3px;
+}
+.forgotBtn {
+  text-align: center;
+}
+
+#forgotText {
+  display: inline-block;
+  color: #7676e7;
+  margin-top: 20px;
+  text-decoration: underline;
+  transition:
+    color 0.3s ease,
+    text-decoration-thickness 0.3s ease;
+}
+
+#forgotText:hover {
+  cursor: pointer;
+  color: #5656d6; /* Темнее при наведении */
+  text-decoration-thickness: 2px; /* Делаем подчеркивание толще */
 }
 
 .header {
@@ -1181,6 +1206,7 @@ body {
 }
 
 .login-form,
+.reset-form,
 .signup-form {
   margin: 0 auto;
   max-width: 55rem;

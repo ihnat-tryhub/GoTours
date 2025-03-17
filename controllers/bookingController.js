@@ -34,7 +34,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         },
       ],
     });
-    console.log('if srabotal');
   } else {
     session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -62,7 +61,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   }
 
   // 3) Create session as response
-  console.log('getCheckOutSession done');
 
   res.status(200).json({
     status: 'success',
@@ -71,46 +69,29 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 });
 
 const createBookingCheckout = async (session) => {
-  console.log('create booking checkout in progress');
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email })).id;
   const price = session.amount_total ? session.amount_total / 100 : 0;
-  console.log('creating booking checkout');
   await Booking.create({ tour, user, price });
 };
 
 exports.webhookCheckout = (req, res, next) => {
-  console.log('Webhook checkout is on process');
-
-  console.log('Type of req.body:', typeof req.body); // Должно быть "object" (Buffer)
-  console.log('Is Buffer:', Buffer.isBuffer(req.body)); // Должно быть true
-
   const signature = req.headers['stripe-signature'];
 
   if (!signature) {
-    console.log('❌ Ошибка: Stripe-Signature отсутствует!');
     return res.status(400).send('Webhook error: Missing Stripe signature');
   }
 
   let event;
   try {
-    console.log('STRIPE_WEBHOOK_SECRET:', process.env.STRIPE_WEBHOOK_SECRET);
-    console.log('Stripe signature:', signature);
-    console.log('Body content (raw):', req.body);
-
     event = stripe.webhooks.constructEvent(
       req.body, // Должен быть Buffer
       signature,
       process.env.STRIPE_WEBHOOK_SECRET,
     );
-
-    console.log('✅ Webhook успешно обработан!', event);
   } catch (err) {
-    console.log('❌ Webhook error:', err.message);
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
-
-  console.log('event type is', event.type);
 
   if (event.type === 'checkout.session.completed') {
     createBookingCheckout(event.data.object);

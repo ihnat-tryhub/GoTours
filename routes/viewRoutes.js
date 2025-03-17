@@ -18,4 +18,7 @@ router.get('/my-tours', authController.protect, viewsController.getMyTours);
 
 router.post('/submit-user-data', authController.protect, viewsController.updateUserData);
 
+// router.get('/resetPassword/:token', authController.resetPassword);
+router.get('/resetPassword/:token', viewsController.resetPassword);
+
 module.exports = router;
