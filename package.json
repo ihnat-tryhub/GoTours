@@ -2,7 +2,7 @@
   "name": "gotours",
   "version": "1.0.0",
   "description": "node js, express and mondo db",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "cross-env NODE_ENV=production nodemon server.js",

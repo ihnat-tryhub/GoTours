@@ -97,4 +97,11 @@ app.all('*', (req, res, next) => {
 
 app.use(globalErrorHandler);
 
+// Keep-Alive
+setInterval(() => {
+  fetch('https://gotours.onrender.com')
+    .then((res) => console.log(`Pinged! Status: ${res.status}`))
+    .catch((err) => console.error('Ping error:', err));
+}, 300000); // 5 min
+
 module.exports = app;
