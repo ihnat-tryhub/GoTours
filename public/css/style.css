@@ -1308,3 +1308,35 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+.main.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  width: 300px;
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-right: 3rem;
+  height: fit-content;
+  align-self: flex-start;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .main.flex {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
+}
