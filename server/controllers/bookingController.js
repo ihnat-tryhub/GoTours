@@ -75,6 +75,18 @@ const createBookingCheckout = async (session) => {
   await Booking.create({ tour, user, price });
 };
 
+exports.getMyBookings = catchAsync(async (req, res, next) => {
+  const bookings = await Booking.find({ user: req.user.id }).sort('-createdAt');
+
+  res.status(200).json({
+    status: 'success',
+    results: bookings.length,
+    data: {
+      data: bookings,
+    },
+  });
+});
+
 exports.webhookCheckout = (req, res, next) => {
   const signature = req.headers['stripe-signature'];
 
