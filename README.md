@@ -111,6 +111,26 @@ Frontend variables are documented in:
 client/.env.example
 ```
 
+The production frontend API origin is configured in:
+
+```text
+client/.env.production
+```
+
+Current production backend:
+
+```text
+https://gotours.onrender.com
+```
+
+Current production frontend:
+
+```text
+https://go-tours-liard.vercel.app
+```
+
+The backend CORS config allows that frontend origin.
+
 Do not commit real `.env` or `config.env` files.
 
 ## Useful Commands

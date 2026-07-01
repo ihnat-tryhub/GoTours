@@ -73,6 +73,15 @@ GET    /api/v1/bookings/checkout-session/:tourId
 
 Use `config.env.example` as the template. Never commit real secrets.
 
+For the deployed React frontend, set:
+
+```bash
+CLIENT_ORIGIN=https://go-tours-liard.vercel.app
+```
+
+The backend also allows local Vite development from `http://localhost:5173`
+and `http://127.0.0.1:5173`.
+
 ## Notes
 
 This backend still has legacy tutorial-era architecture and dependencies. The

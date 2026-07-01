@@ -47,7 +47,14 @@ Open:
 ## Backend Integration
 
 In development, Vite proxies `/api` and `/img` to `http://localhost:3000`.
-For deployment, set `VITE_API_ORIGIN` to the public backend URL.
+For production builds, `client/.env.production` points the frontend to:
+
+```bash
+VITE_API_ORIGIN=https://gotours.onrender.com
+```
+
+If the backend domain changes later, update that value in the deployment
+environment or in `client/.env.production`.
 
 Mapbox route maps need these values in `client/.env`:
 
