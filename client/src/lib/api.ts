@@ -9,7 +9,7 @@ import type {
 } from '../types';
 import { normalizeApiErrorMessage } from './errors';
 
-const API_ORIGIN = import.meta.env.VITE_API_ORIGIN ?? '';
+const RAW_API_ORIGIN = import.meta.env.VITE_API_ORIGIN ?? '';
 const TOKEN_STORAGE_KEY = 'gotours_token';
 
 type RequestOptions = RequestInit & {
@@ -39,10 +39,32 @@ export function clearStoredToken(): void {
   localStorage.removeItem(TOKEN_STORAGE_KEY);
 }
 
+function normalizeApiOrigin(value: string): string {
+  const trimmed = value.trim().replace(/\/+$/, '');
+  if (!trimmed) return '';
+
+  try {
+    const url = new URL(trimmed);
+    return url.origin;
+  } catch {
+    return trimmed.replace(/\/api\/v1(?:\/.*)?$/i, '');
+  }
+}
+
+const API_ORIGIN = normalizeApiOrigin(RAW_API_ORIGIN);
+
+function buildUrl(path: string): string {
+  if (!path) return API_ORIGIN;
+  if (/^https?:\/\//i.test(path)) return path;
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${API_ORIGIN}${normalizedPath}`;
+}
+
 export function assetUrl(path: string): string {
   if (!path) return '';
   if (path.startsWith('http')) return path;
-  return `${API_ORIGIN}${path}`;
+  return buildUrl(path);
 }
 
 function isFormDataBody(body: BodyInit | null | undefined): body is FormData {
@@ -87,7 +109,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   let response: Response;
 
   try {
-    response = await fetch(`${API_ORIGIN}${path}`, {
+    response = await fetch(buildUrl(path), {
       ...options,
       headers,
       credentials: 'include',

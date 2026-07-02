@@ -53,6 +53,10 @@ For production builds, `client/.env.production` points the frontend to:
 VITE_API_ORIGIN=https://gotours.onrender.com
 ```
 
+Use only the backend origin here. Do not include `/api/v1`, `/api/v1/tours`,
+or any other endpoint path. The React client appends API paths itself, for
+example `/api/v1/tours`.
+
 If the backend domain changes later, update that value in the deployment
 environment or in `client/.env.production`.
 
