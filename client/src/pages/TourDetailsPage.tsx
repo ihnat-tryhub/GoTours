@@ -51,6 +51,11 @@ export function TourDetailsPage() {
     async function loadTour() {
       if (!tourKey) return;
 
+      setIsLoading(true);
+      setError(null);
+      setCheckoutError(null);
+      setTour(null);
+
       try {
         const data = await getTourBySlugOrId(tourKey);
         setTour(data);
