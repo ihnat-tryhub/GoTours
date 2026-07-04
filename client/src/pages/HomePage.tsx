@@ -42,11 +42,11 @@ export function HomePage() {
     <main>
       <section className="hero">
         <div className="hero-content">
-          <p className="eyebrow">Original GoTours backend - New React client</p>
+          <p className="eyebrow">GoTours travel platform</p>
           <h1>Find outdoor tours and book your next adventure.</h1>
           <p>
-            A modern client built around the existing Express and MongoDB API, with clean
-            routing, typed data models, and a frontend-ready booking entry point.
+            Discover guided outdoor tours, explore routes on the map, and manage your
+            bookings from one clean travel dashboard.
           </p>
           <div className="hero-actions">
             <Link className="button" to="/tours">

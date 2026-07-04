@@ -15,7 +15,9 @@ export function Layout() {
     <div className="app-shell">
       <header className="site-header">
         <Link className="brand" to="/">
-          <span className="brand-mark">GT</span>
+          <span className="brand-mark" aria-hidden="true">
+            <img src="/favicon.png" alt="" />
+          </span>
           <span>GoTours</span>
         </Link>
 
@@ -43,7 +45,7 @@ export function Layout() {
       <Outlet />
 
       <footer className="site-footer">
-        <span>React client for the original Express GoTours API.</span>
+        <span>Modern tour booking experience powered by the GoTours API.</span>
         <span>Backend: localhost:3000</span>
       </footer>
     </div>
