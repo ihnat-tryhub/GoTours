@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: gotours-v2-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gotours
+      POSTGRES_PASSWORD: gotours_password
+      POSTGRES_DB: gotours_v2
+    ports:
+      - "5432:5432"
+    volumes:
+      - gotours_v2_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gotours -d gotours_v2"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  gotours_v2_postgres_data:

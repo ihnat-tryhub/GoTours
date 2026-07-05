@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  GUIDE
+  ADMIN
+}
+
+enum TourDifficulty {
+  EASY
+  MEDIUM
+  DIFFICULT
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  PAID
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  STRIPE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+enum ReviewStatus {
+  PUBLISHED
+  HIDDEN
+}
+
+model User {
+  id            String         @id @default(uuid()) @db.Uuid
+  email         String         @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  role          UserRole       @default(USER)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  refreshTokens RefreshToken[]
+  bookings      Booking[]
+  reviews       Review[]
+
+  @@index([role])
+  @@index([isActive])
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  tokenHash String    @unique
+  userId    String    @db.Uuid
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Tour {
+  id              String         @id @default(uuid()) @db.Uuid
+  title           String
+  slug            String         @unique
+  summary         String
+  description     String         @db.Text
+  price           Decimal        @db.Decimal(10, 2)
+  duration        Int
+  maxGroupSize    Int
+  difficulty      TourDifficulty
+  ratingsAverage  Decimal        @default(0.0) @db.Decimal(3, 2)
+  ratingsQuantity Int            @default(0)
+  imageCover      String?
+  images          String[]       @default([])
+  startDates      DateTime[]     @default([])
+  isActive        Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  bookings        Booking[]
+  reviews         Review[]
+
+  @@index([price])
+  @@index([difficulty])
+  @@index([isActive])
+}
+
+model Booking {
+  id        String        @id @default(uuid()) @db.Uuid
+  userId    String        @db.Uuid
+  tourId    String        @db.Uuid
+  startDate DateTime?
+  price     Decimal       @db.Decimal(10, 2)
+  status    BookingStatus @default(PENDING_PAYMENT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  tour      Tour          @relation(fields: [tourId], references: [id], onDelete: Restrict)
+  payment   Payment?
+
+  @@unique([userId, tourId, startDate])
+  @@index([userId])
+  @@index([tourId])
+  @@index([status])
+}
+
+model Payment {
+  id                      String          @id @default(uuid()) @db.Uuid
+  bookingId               String          @unique @db.Uuid
+  provider                PaymentProvider @default(STRIPE)
+  stripeCheckoutSessionId String?         @unique
+  stripePaymentIntentId   String?         @unique
+  amount                  Decimal         @db.Decimal(10, 2)
+  currency                String          @default("eur") @db.VarChar(3)
+  status                  PaymentStatus   @default(PENDING)
+  createdAt               DateTime        @default(now())
+  updatedAt               DateTime        @updatedAt
+  booking                 Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
+model PaymentEvent {
+  id            String    @id @default(uuid()) @db.Uuid
+  stripeEventId String    @unique
+  type          String
+  payload       Json
+  processedAt   DateTime?
+  createdAt     DateTime  @default(now())
+
+  @@index([type])
+  @@index([processedAt])
+}
+
+model Review {
+  id        String       @id @default(uuid()) @db.Uuid
+  userId    String       @db.Uuid
+  tourId    String       @db.Uuid
+  rating    Int
+  text      String       @db.Text
+  status    ReviewStatus @default(PUBLISHED)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tour      Tour         @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tourId])
+  @@index([tourId])
+  @@index([status])
+}
