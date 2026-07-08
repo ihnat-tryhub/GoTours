@@ -135,8 +135,8 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
-  transform: scale(1.9);
+  object-position: center center;
+  transform: scale(1.9) translateY(4px);
 }
 
 .brand:hover .brand-mark {
@@ -187,16 +187,108 @@ img {
   color: #ffffff;
 }
 
+/* ── Footer ─────────────────────────────────────────────── */
 .site-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
   margin-top: auto;
-  padding: 28px clamp(20px, 4vw, 56px);
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 0.92rem;
+  background: #111a14;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.875rem;
 }
+
+.footer-inner {
+  display: flex;
+  gap: clamp(32px, 6vw, 96px);
+  flex-wrap: wrap;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 4vw, 56px) clamp(28px, 4vw, 48px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.footer-brand {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-brand-link {
+  color: #ffffff !important;
+}
+
+.footer-brand-link:hover {
+  color: #6ee7a0 !important;
+}
+
+.footer-brand .brand-mark {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: none;
+}
+
+.footer-tagline {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.45);
+  max-width: 280px;
+}
+
+.footer-nav {
+  display: flex;
+  gap: clamp(28px, 4vw, 64px);
+  flex-wrap: wrap;
+}
+
+.footer-nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 120px;
+}
+
+.footer-nav-heading {
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 4px;
+}
+
+.footer-nav-col a {
+  color: rgba(255,255,255,0.6);
+  transition: color var(--fast), transform var(--fast);
+}
+
+.footer-nav-col a:hover {
+  color: #6ee7a0;
+  transform: translateX(3px);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px clamp(20px, 4vw, 56px);
+  color: rgba(255,255,255,0.28);
+  font-size: 0.8rem;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-bottom-links a {
+  color: rgba(255,255,255,0.28);
+  transition: color var(--fast);
+}
+
+.footer-bottom-links a:hover {
+  color: rgba(255,255,255,0.7);
+}
+
+
 
 .page {
   width: min(1180px, calc(100% - 40px));

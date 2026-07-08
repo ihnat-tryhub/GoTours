@@ -45,8 +45,44 @@ export function Layout() {
       <Outlet />
 
       <footer className="site-footer">
-        <span>Modern tour booking experience powered by the GoTours API.</span>
-        <span>Backend: localhost:3000</span>
+        <div className="footer-inner">
+          <div className="footer-brand">
+            <Link className="brand footer-brand-link" to="/">
+              <span className="brand-mark" aria-hidden="true">
+                <img src="/favicon.png" alt="" />
+              </span>
+              <span>GoTours</span>
+            </Link>
+            <p className="footer-tagline">
+              Discover curated adventures across the globe. Book your next journey with confidence.
+            </p>
+          </div>
+
+          <nav className="footer-nav" aria-label="Footer navigation">
+            <div className="footer-nav-col">
+              <span className="footer-nav-heading">Explore</span>
+              <Link to="/tours">All Tours</Link>
+              <Link to="/tours">Adventure</Link>
+              <Link to="/tours">Cultural</Link>
+              <Link to="/tours">Nature</Link>
+            </div>
+            <div className="footer-nav-col">
+              <span className="footer-nav-heading">Account</span>
+              <Link to="/login">Sign In</Link>
+              <Link to="/signup">Register</Link>
+              <Link to="/my-bookings">My Bookings</Link>
+              <Link to="/profile">Profile</Link>
+            </div>
+          </nav>
+        </div>
+
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} GoTours. All rights reserved.</span>
+          <span className="footer-bottom-links">
+            <Link to="/">Privacy Policy</Link>
+            <Link to="/">Terms of Service</Link>
+          </span>
+        </div>
       </footer>
     </div>
   );
